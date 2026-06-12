@@ -331,53 +331,6 @@ export async function startServer(projectDir) {
         };
     }
     // --- codegraph_brief ---
-    server.registerTool('codegraph_brief', {
-        description: 'Get a complete codebase briefing — architecture, hotspots, risk zones, entry points, and module dependencies in one call',
-        inputSchema: {},
-    }, safeHandler(async () => handlers.codegraph_brief({})));
-    // --- codegraph_status ---
-    server.registerTool('codegraph_status', {
-        description: 'Show the current state of the CodeGraph index for the project',
-        inputSchema: {},
-    }, safeHandler(async () => handlers.codegraph_status({})));
-    // --- codegraph_search ---
-    server.registerTool('codegraph_search', {
-        description: 'Search for symbols by name or kind in the indexed codebase',
-        inputSchema: {
-            query: z.string().min(1).describe('Search query (substring match on name/qualified name)'),
-            kind: z
-                .enum(['function', 'class', 'method', 'variable', 'type', 'enum', 'namespace', 'export'])
-                .optional()
-                .describe('Filter by symbol kind'),
-        },
-    }, safeHandler(async (args) => handlers.codegraph_search(args)));
-    // --- codegraph_callers ---
-    server.registerTool('codegraph_callers', {
-        description: 'Find all callers of a symbol (recursive up to depth)',
-        inputSchema: symbolDisambigSchema,
-    }, safeHandler(async (args) => handlers.codegraph_callers(args)));
-    // --- codegraph_callees ---
-    server.registerTool('codegraph_callees', {
-        description: 'Find all symbols called by a symbol (recursive up to depth)',
-        inputSchema: symbolDisambigSchema,
-    }, safeHandler(async (args) => handlers.codegraph_callees(args)));
-    // --- codegraph_blast ---
-    server.registerTool('codegraph_blast', {
-        description: 'Compute full blast radius for a symbol: callers, callees, affected files, and documentation references',
-        inputSchema: symbolDisambigSchema,
-    }, safeHandler(async (args) => handlers.codegraph_blast(args)));
-    // --- codegraph_depends ---
-    server.registerTool('codegraph_depends', {
-        description: 'Show file dependency tree (inbound, outbound, or both)',
-        inputSchema: {
-            file: z.string().describe('File path to query dependencies for'),
-            direction: z
-                .enum(['in', 'out', 'both'])
-                .optional()
-                .default('both')
-                .describe("Direction: 'in' (who imports this), 'out' (what this imports), or 'both'"),
-        },
-    }, safeHandler(async (args) => handlers.codegraph_depends(args)));
     const transport = new StdioServerTransport();
     await server.connect(transport);
 }

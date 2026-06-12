@@ -24,13 +24,6 @@ export interface DependsInput {
 export interface StatusInput {
 }
 export interface ToolHandlers {
-    codegraph_brief: (input: StatusInput) => Promise<ToolResponse>;
-    codegraph_status: (input: StatusInput) => Promise<ToolResponse>;
-    codegraph_search: (input: SearchInput) => Promise<ToolResponse>;
-    codegraph_callers: (input: CallerCalleeInput) => Promise<ToolResponse>;
-    codegraph_callees: (input: CallerCalleeInput) => Promise<ToolResponse>;
-    codegraph_blast: (input: CallerCalleeInput) => Promise<ToolResponse>;
-    codegraph_depends: (input: DependsInput) => Promise<ToolResponse>;
     close?: () => void;
 }
 export declare function createToolHandlers(projectDir: string, options?: {
